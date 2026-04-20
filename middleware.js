@@ -1,4 +1,8 @@
 const Listing = require("./models/listing");
+const Review = require("./models/review");
+const ExpressError = require("./utils/ExpressError");
+const { listingSchema, reviewSchema } = require("./schema.js");
+
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.redirectUrl = req.originalUrl; // store the original URL the user was trying to access
@@ -28,11 +32,38 @@ module.exports.isOwner = async (req, res, next) => {
 
 module.exports.isAuthor = async (req, res, next) => {
     const { id, reviewId } = req.params;
-    const listing = await Listing.findById(id).populate({ "path": "reviews", populate: { path: "author" } });
-    const review = listing.reviews.id(reviewId);
+
+    // Instead of looking in the listing.reviews array, query the Review model!
+    const review = await Review.findById(reviewId);
+
     if (!review || !review.author._id.equals(req.user._id)) {
         req.flash("error", "You don't have permission to do that!");
-        return res.redirect("/listings/" + listing._id);
+        return res.redirect("/listings/" + id);
     }
+
     next();
+};
+
+// middleware function for validating input fields coming from create and update route
+//  it validates req.body.listing with Joi and throws a 400 on bad input.
+module.exports.validateListing = (req, res, next) => {
+    const { error } = listingSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
+
+// middleware function for validating input fields coming from review route
+module.exports.validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        // error.details is an array of error objects, each with a message property. We map over this array to extract the messages and join them into a single string separated by commas.
+        const msg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
 };

@@ -26,7 +26,7 @@ async function main() {
 // function ->  deletes all previous data from my listing model and initialises wih new data
 const initDB = async () => {
   await Listing.deleteMany({});
-  initData.data = initData.data.map((listing) => ({ ...listing, owner: "69e49cbf5459072e6de795da" }));
+  initData.data = initData.data.map((listing) => ({ ...listing, owner: "69e4e6952e44b68cc8b22d47" }));
   await Listing.insertMany(initData.data);
   console.log("data was initialized");
 };
