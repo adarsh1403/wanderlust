@@ -4,7 +4,10 @@
 <!-- Uses method-override to send a DELETE request via form submission -->
 
 <% layout("layouts/boilerplate") -%>
-
+  <script>
+    let mapboxToken = "<%= process.env.MAPBOX_TOKEN %>";
+    const coordinatesStr = "<%- JSON.stringify(listing.geometry.coordinates) %>";
+  </script>
   <div class="row mt-4 mb-4">
     <div class="col-12 col-md-10 col-lg-7">
       <h2 class="mb-3">
@@ -12,7 +15,7 @@
       </h2>
 
       <div class="card border-0">
-        <img src="<%= listing.image %>" class="card-img-top rounded-3" alt="listing image"
+        <img src="<%= listing.image.url %>" class="card-img-top rounded-3" alt="listing image"
           style="height: 19rem; object-fit: cover;" />
         <div class="card-body px-0 pt-3">
           <p class="card-text mb-1">
@@ -108,4 +111,11 @@
             <% }) %>
               <% } %>
     </div>
+    <div>
+      <h3>You are here</h3>
+      <div id="map" class="mt-4">
+      </div>
+    </div>
   </div>
+
+  <script src="/js/map.js"></script>

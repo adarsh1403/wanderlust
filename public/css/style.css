@@ -65,3 +65,9 @@ body {
     height: 14rem;
     object-fit: cover;
 }
+
+/* map */
+#map {
+    width: 60vw;
+    height: 400px;
+}
