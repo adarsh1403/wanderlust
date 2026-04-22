@@ -1,71 +1,64 @@
-<!-- template for serving a form for adding new listings -->
-<!-- Uses custom Bootstrap validation UI (needs-validation + invalid-feedback), and bootstrap grid for responsiveness -->
-<!-- form submits via a put method -->
 <% layout("layouts/boilerplate") -%>
 
-  <div class="row mt-4">
-    <div class="col-12 col-md-10 col-lg-8">
-      <h2 class="mb-3">Create a New Listing</h2>
-      <form method="POST" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
-        <div class="mb-3">
-          <label for="title" class="form-label">Title</label>
-          <input id="title" name="listing[title]" placeholder="Add a catchy title" type="text" class="form-control"
-            required />
-          <div class="invalid-feedback">Please enter a title.</div>
-        </div>
-
-        <div class="mb-3">
-          <label for="description" class="form-label">Description</label>
-          <textarea id="description" name="listing[description]" placeholder="Add a short description"
-            class="form-control" rows="3" required></textarea>
-          <div class="invalid-feedback">Please enter a description.</div>
-        </div>
-
-        <div class="mb-3">
-          <label for="image" class="form-label">Upload Image</label>
-          <input id="image" name="listing[image]" type="file" class="form-control required" />
-          <div class="invalid-feedback">Please upload an image.</div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Choose Categories (Optional)</label>
-          <div class="row">
-            <% const categories = ["Trending", "Rooms", "Iconic Cities", "Mountains", "Castles", "Amazing Pools", "Camping", "Farms", "Arctic", "Domes", "Boats"]; %>
-            <% for(let cat of categories) { %>
-              <div class="col-md-3 col-sm-4 col-6 mb-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="listing[category]" value="<%= cat %>" id="cat-<%= cat.replace(/\s+/g, '-') %>">
-                  <label class="form-check-label" for="cat-<%= cat.replace(/\s+/g, '-') %>">
-                    <%= cat %>
-                  </label>
-                </div>
-              </div>
-            <% } %>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-4 mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input id="price" name="listing[price]" placeholder="1200" type="number" class="form-control" required />
-            <div class="invalid-feedback">Please enter a price.</div>
-          </div>
-          <div class="col-md-8 mb-3">
-            <label for="country" class="form-label">Country</label>
-            <input id="country" name="listing[country]" placeholder="India" type="text" class="form-control "
-              required />
-            <div class="invalid-feedback">Please enter a country.</div>
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <label for="location" class="form-label">Location</label>
-          <input id="location" name="listing[location]" placeholder="Jaipur, Rajasthan" type="text" class="form-control"
-            required />
-          <div class="invalid-feedback">Please enter a location.</div>
-        </div>
-
-        <button class="btn btn-danger btn-sm">Add</button>
-      </form>
+<div class="max-w-2xl mx-auto py-8 px-4">
+  <h2 class="text-2xl font-bold text-zinc-900 mb-6">Create a New Listing</h2>
+  <form method="POST" action="/listings" class="needs-validation bg-white p-6 rounded-xl border border-zinc-200 shadow-sm" novalidate enctype="multipart/form-data">
+    
+    <div class="mb-5">
+      <label for="title" class="block text-sm font-medium text-zinc-700 mb-1.5">Title</label>
+      <input id="title" name="listing[title]" placeholder="Add a catchy title" type="text" class="w-full border border-zinc-300 rounded-lg px-3 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent" required />
+      <div class="invalid-feedback text-sm text-red-600 mt-1">Please enter a title.</div>
     </div>
-  </div>
+
+    <div class="mb-5">
+      <label for="description" class="block text-sm font-medium text-zinc-700 mb-1.5">Description</label>
+      <textarea id="description" name="listing[description]" placeholder="Add a short description" rows="4" class="w-full border border-zinc-300 rounded-lg px-3 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent resize-none" required></textarea>
+      <div class="invalid-feedback text-sm text-red-600 mt-1">Please enter a description.</div>
+    </div>
+
+    <div class="mb-5">
+      <label for="image" class="block text-sm font-medium text-zinc-700 mb-1.5">Upload Image</label>
+      <input id="image" name="listing[image]" type="file" class="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm text-zinc-600 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 cursor-pointer" required />
+      <div class="invalid-feedback text-sm text-red-600 mt-1">Please upload an image.</div>
+    </div>
+
+    <div class="mb-5">
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Choose Categories (Optional)</label>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <% const categories = ["Trending", "Rooms", "Iconic Cities", "Mountains", "Castles", "Amazing Pools", "Camping", "Farms", "Arctic", "Domes", "Boats"]; %>
+        <% for(let cat of categories) { %>
+          <label class="cursor-pointer">
+            <input type="checkbox" name="listing[category]" value="<%= cat %>" id="cat-<%= cat.replace(/\s+/g, '-') %>" class="peer sr-only">
+            <div class="border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-700 hover:border-orange-700 hover:text-orange-700 transition-all peer-checked:bg-orange-50 peer-checked:border-orange-700 peer-checked:text-orange-700 text-center select-none">
+              <%= cat %>
+            </div>
+          </label>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4 mb-5">
+      <div class="col-span-1">
+        <label for="price" class="block text-sm font-medium text-zinc-700 mb-1.5">Price</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-500 font-medium">&#8377;</span>
+          <input id="price" name="listing[price]" placeholder="1200" type="number" class="w-full border border-zinc-300 rounded-lg pl-8 pr-3 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent" required />
+        </div>
+        <div class="invalid-feedback text-sm text-red-600 mt-1">Please enter a price.</div>
+      </div>
+      <div class="col-span-2">
+        <label for="country" class="block text-sm font-medium text-zinc-700 mb-1.5">Country</label>
+        <input id="country" name="listing[country]" placeholder="India" type="text" class="w-full border border-zinc-300 rounded-lg px-3 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent" required />
+        <div class="invalid-feedback text-sm text-red-600 mt-1">Please enter a country.</div>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <label for="location" class="block text-sm font-medium text-zinc-700 mb-1.5">Location</label>
+      <input id="location" name="listing[location]" placeholder="Jaipur, Rajasthan" type="text" class="w-full border border-zinc-300 rounded-lg px-3 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent" required />
+      <div class="invalid-feedback text-sm text-red-600 mt-1">Please enter a location.</div>
+    </div>
+
+    <button class="bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors w-full sm:w-auto">Create Listing</button>
+  </form>
+</div>

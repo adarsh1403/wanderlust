@@ -1,61 +1,60 @@
-<!-- template for showing all the listings  -->
-<!-- uses bootstrap grid and card layout for resposive design -->
 <% layout("layouts/boilerplate") -%>
 
-  <div id="filters" class="filters-container">
-    <!-- Scrollable Filter Chips -->
-    <div class="filter-scroll">
-      <a href="/listings?category=Trending" class="filter text-decoration-none text-dark"><i class="fa-solid fa-fire"></i><span>Trending</span></a>
-      <a href="/listings?category=Rooms" class="filter text-decoration-none text-dark"><i class="fa-solid fa-bed"></i><span>Rooms</span></a>
-      <a href="/listings?category=Iconic Cities" class="filter text-decoration-none text-dark"><i class="fa-solid fa-mountain-city"></i><span>Iconic Cities</span></a>
-      <a href="/listings?category=Mountains" class="filter text-decoration-none text-dark"><i class="fa-solid fa-mountain"></i><span>Mountains</span></a>
-      <a href="/listings?category=Castles" class="filter text-decoration-none text-dark"><i class="fa-brands fa-fort-awesome"></i><span>Castles</span></a>
-      <a href="/listings?category=Amazing Pools" class="filter text-decoration-none text-dark"><i class="fa-solid fa-person-swimming"></i><span>Amazing Pools</span></a>
-      <a href="/listings?category=Camping" class="filter text-decoration-none text-dark"><i class="fa-solid fa-campground"></i><span>Camping</span></a>
-      <a href="/listings?category=Farms" class="filter text-decoration-none text-dark"><i class="fa-solid fa-tractor"></i><span>Farms</span></a>
-      <a href="/listings?category=Arctic" class="filter text-decoration-none text-dark"><i class="fa-solid fa-snowflake"></i><span>Arctic</span></a>
-      <a href="/listings?category=Domes" class="filter text-decoration-none text-dark"><i class="fa-solid fa-igloo"></i><span>Domes</span></a>
-      <a href="/listings?category=Boats" class="filter text-decoration-none text-dark"><i class="fa-solid fa-ship"></i><span>Boats</span></a>
-    </div>
-
-    <!-- Tax Switch - fixed on the right side -->
-    <div class="tax-toggle">
-      <div class="form-check-reverse form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        <label class="form-check-label" for="flexSwitchCheckDefault">Include taxes</label>
-      </div>
-    </div>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+  <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide w-full md:w-auto flex-1">
+    <a href="/listings?category=Trending" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-fire"></i><span>Trending</span></a>
+    <a href="/listings?category=Rooms" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-bed"></i><span>Rooms</span></a>
+    <a href="/listings?category=Iconic Cities" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-mountain-city"></i><span>Iconic Cities</span></a>
+    <a href="/listings?category=Mountains" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-mountain"></i><span>Mountains</span></a>
+    <a href="/listings?category=Castles" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-brands fa-fort-awesome"></i><span>Castles</span></a>
+    <a href="/listings?category=Amazing Pools" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-person-swimming"></i><span>Amazing Pools</span></a>
+    <a href="/listings?category=Camping" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-campground"></i><span>Camping</span></a>
+    <a href="/listings?category=Farms" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-tractor"></i><span>Farms</span></a>
+    <a href="/listings?category=Arctic" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-snowflake"></i><span>Arctic</span></a>
+    <a href="/listings?category=Domes" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-igloo"></i><span>Domes</span></a>
+    <a href="/listings?category=Boats" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-ship"></i><span>Boats</span></a>
   </div>
 
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    <% for(let listing of allListings) { %>
-      <div class="col">
-        <a href="/listings/<%= listing._id %>" class="listing-card-link text-decoration-none">
-          <div class="card listing-card h-100">
-            <img src="<%= listing.image.url %>" class="card-img-top listing-card-img" alt="image">
-            <div class="card-body">
-              <p class="card-text mb-0"><b>
-                  <%= listing.title %>
-                </b><br>&#8377; <%= listing.price.toLocaleString("en-IN") %>
-                <i class="tax-info" style="display: none;">&nbsp;+18% GST</i>
-              </p>
-            </div>
-          </div>
-        </a>
+  <div class="flex items-center bg-white border border-zinc-200 rounded-xl px-4 py-2.5 shadow-sm whitespace-nowrap">
+    <label class="flex items-center cursor-pointer gap-3 text-sm font-medium text-zinc-700">
+      <span>Include taxes</span>
+      <div class="relative">
+        <input type="checkbox" id="flexSwitchCheckDefault" class="sr-only peer">
+        <div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-zinc-900"></div>
       </div>
-      <% } %>
+    </label>
   </div>
+</div>
 
-  <script>
-    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-    taxSwitch.addEventListener("change", () => {
-      let taxInfo = document.getElementsByClassName("tax-info");
-      for(info of taxInfo) {
-        if(info.style.display != "inline") {
-          info.style.display = "inline";
-        } else {
-          info.style.display = "none";
-        }
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  <% for(let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="group block">
+      <div class="bg-white rounded-xl overflow-hidden border border-zinc-100 shadow-sm hover:shadow-md transition-all duration-200 h-full flex flex-col">
+        <div class="overflow-hidden relative">
+          <img src="<%= listing.image.url %>" alt="image" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="p-4 flex-1 flex flex-col">
+          <h3 class="text-sm font-semibold text-zinc-900 mb-1 line-clamp-1"><%= listing.title %></h3>
+          <p class="text-sm text-zinc-600 mt-auto">
+            <span class="font-semibold text-zinc-900">&#8377; <%= listing.price.toLocaleString("en-IN") %></span> / night
+            <i class="tax-info text-xs text-zinc-500" style="display: none;">&nbsp;+18% GST</i>
+          </p>
+        </div>
+      </div>
+    </a>
+  <% } %>
+</div>
+
+<script>
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListener("change", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for(let info of taxInfo) {
+      if(info.style.display !== "inline") {
+        info.style.display = "inline";
+      } else {
+        info.style.display = "none";
       }
-    });
-  </script>
+    }
+  });
+</script>

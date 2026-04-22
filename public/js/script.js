@@ -1,10 +1,10 @@
-// bootstrap cutom styling for forms validation 
+// Custom styling for form validation using Tailwind CSS
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (() => {
     'use strict'
 
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    // Fetch all the forms we want to apply custom validation styles to
     const forms = document.querySelectorAll('.needs-validation')
 
     // Loop over them and prevent submission
@@ -14,8 +14,9 @@
                 event.preventDefault()
                 event.stopPropagation()
             }
-            // form.classList.add('was-validated') puts the class on that specific form node.
-            // Then Bootstrap CSS uses selectors like .was-validated .form-control:invalid and .was-validated .form-control:valid to style the child input/textarea elements based on their validity state.
+            // Adds the 'was-validated' class to the form.
+            // Our custom CSS in boilerplate.ejs will then show the .invalid-feedback elements
+            // and apply red borders to invalid inputs.
             form.classList.add('was-validated')
         }, false)
     })

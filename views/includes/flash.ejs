@@ -1,15 +1,17 @@
-<!-- template for flash messages -->
-<!-- checks if success key exists and its value is not empty because its value is an array -->
-<% if (success && success.length> 0) { %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <%= success %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<% if (success && success.length > 0) { %>
+    <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg px-4 py-3 text-sm mb-4 flex justify-between items-start shadow-sm" role="alert">
+        <div><%= success %></div>
+        <button type="button" class="text-green-600 hover:text-green-900 ml-3" onclick="this.parentElement.remove()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
     </div>
-    <% } %>
+<% } %>
 
-        <% if ( error && error.length> 0 ) { %>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <%= error %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <% } %>
+<% if (error && error.length > 0) { %>
+    <div class="bg-red-50 border border-red-200 text-red-800 rounded-lg px-4 py-3 text-sm mb-4 flex justify-between items-start shadow-sm" role="alert">
+        <div><%= error %></div>
+        <button type="button" class="text-red-600 hover:text-red-900 ml-3" onclick="this.parentElement.remove()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+<% } %>
