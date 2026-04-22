@@ -6,7 +6,7 @@ const baseClient = mbxGeocoding({ accessToken: mapBoxToken });
 const { getAverageRating } = require("../utils/rating.js");
 
 module.exports.index = async (req, res) => {
-  const { category, q } = req.query;
+  const { category, q, page = 1 } = req.query;
   let query = {};
   if (category) {
     query.category = category;
@@ -25,7 +25,22 @@ module.exports.index = async (req, res) => {
 
     query.$or = searchQuery;
   }
-  const listings = await Listing.find(query).populate("reviews").lean();
+
+  // --- Pagination Math ---
+  const limit = 12; // Set how many listings you want per page
+  const currentPage = parseInt(page) > 0 ? parseInt(page) : 1; 
+  const skip = (currentPage - 1) * limit;
+
+  // Get total matching documents to calculate total pages needed
+  const totalListings = await Listing.countDocuments(query);
+  const totalPages = Math.ceil(totalListings / limit);
+
+  // --- Database Fetch ---
+  const listings = await Listing.find(query)
+    .populate("reviews")
+    .skip(skip)
+    .limit(limit)
+    .lean();
 
   // 2. Loop through the results and calculate the average
   const allListings = listings.map((listing) => {
@@ -35,8 +50,14 @@ module.exports.index = async (req, res) => {
     };
   });
 
-  // 3. Render as normal (the UI will now have access to listing.avgRating)
-  res.render("listings/index.ejs", { allListings });
+  // 3. Render as normal (the UI will now have access to pagination vars)
+  res.render("listings/index.ejs", { 
+    allListings,
+    currentPage,
+    totalPages,
+    q,
+    category
+  });
 };
 
 module.exports.renderNewForm = (req, res) => {

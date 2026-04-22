@@ -73,6 +73,49 @@
   <% } %>
 </div>
 
+<% if (totalPages > 1) { %>
+  <div class="flex justify-center mt-12 mb-8">
+    <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+      
+      <!-- Previous -->
+      <% if (currentPage === 1) { %>
+        <span class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-zinc-300 bg-zinc-50 text-sm font-medium text-zinc-400 cursor-not-allowed">
+          Previous
+        </span>
+      <% } else { %>
+        <a href="/listings?page=<%= currentPage - 1 %><%= typeof q !== 'undefined' && q ? '&q=' + q : '' %><%= typeof category !== 'undefined' && category ? '&category=' + category : '' %>" class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-zinc-300 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50">
+          Previous
+        </a>
+      <% } %>
+
+      <!-- Pages -->
+      <% for(let i = 1; i <= totalPages; i++) { %>
+        <% if (currentPage === i) { %>
+          <span class="relative inline-flex items-center px-4 py-2 border border-orange-600 bg-orange-50 text-sm font-medium text-orange-600 z-10">
+            <%= i %>
+          </span>
+        <% } else { %>
+          <a href="/listings?page=<%= i %><%= typeof q !== 'undefined' && q ? '&q=' + q : '' %><%= typeof category !== 'undefined' && category ? '&category=' + category : '' %>" class="relative inline-flex items-center px-4 py-2 border border-zinc-300 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50">
+            <%= i %>
+          </a>
+        <% } %>
+      <% } %>
+
+      <!-- Next -->
+      <% if (currentPage === totalPages) { %>
+        <span class="relative inline-flex items-center px-4 py-2 rounded-r-md border border-zinc-300 bg-zinc-50 text-sm font-medium text-zinc-400 cursor-not-allowed">
+          Next
+        </span>
+      <% } else { %>
+        <a href="/listings?page=<%= currentPage + 1 %><%= typeof q !== 'undefined' && q ? '&q=' + q : '' %><%= typeof category !== 'undefined' && category ? '&category=' + category : '' %>" class="relative inline-flex items-center px-4 py-2 rounded-r-md border border-zinc-300 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50">
+          Next
+        </a>
+      <% } %>
+
+    </nav>
+  </div>
+<% } %>
+
 <script>
   let taxSwitch = document.getElementById("flexSwitchCheckDefault");
   taxSwitch.addEventListener("change", () => {
