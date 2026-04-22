@@ -6,10 +6,13 @@ const baseClient = mbxGeocoding({ accessToken: mapBoxToken });
 const { getAverageRating } = require("../utils/rating.js");
 
 module.exports.index = async (req, res) => {
-  const { category, q, page = 1 } = req.query;
+  const { category, amenities, q, page = 1 } = req.query;
   let query = {};
   if (category) {
     query.category = category;
+  }
+  if (amenities) {
+    query.amenities = amenities;
   }
   if (q) {
     let searchQuery = [
@@ -56,7 +59,8 @@ module.exports.index = async (req, res) => {
     currentPage,
     totalPages,
     q,
-    category
+    category,
+    amenities
   });
 };
 

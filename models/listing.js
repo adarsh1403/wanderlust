@@ -22,17 +22,26 @@ const listingSchema = new mongoose.Schema({
   category: {
     type: [String],
     enum: [
-      "Trending",
-      "Rooms",
-      "Iconic Cities",
-      "Mountains",
+      "Apartments",
+      "Villas",
+      "Cabins",
+      "Beachfront",
       "Castles",
-      "Amazing Pools",
-      "Camping",
-      "Farms",
-      "Arctic",
-      "Domes",
-      "Boats",
+      "Unique",
+    ],
+  },
+  amenities: {
+    type: [String],
+    enum: [
+      "WiFi",
+      "Pool",
+      "Hot Tub",
+      "Free Parking",
+      "AC",
+      "Kitchen",
+      "Pet Friendly",
+      "TV",
+      "Washer"
     ],
   },
   reviews: [

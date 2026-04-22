@@ -1,28 +1,62 @@
 <% layout("layouts/boilerplate") -%>
 
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-  <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide w-full md:w-auto flex-1">
-    <a href="/listings?category=Trending" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-fire"></i><span>Trending</span></a>
-    <a href="/listings?category=Rooms" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-bed"></i><span>Rooms</span></a>
-    <a href="/listings?category=Iconic Cities" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-mountain-city"></i><span>Iconic Cities</span></a>
-    <a href="/listings?category=Mountains" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-mountain"></i><span>Mountains</span></a>
-    <a href="/listings?category=Castles" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-brands fa-fort-awesome"></i><span>Castles</span></a>
-    <a href="/listings?category=Amazing Pools" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-person-swimming"></i><span>Amazing Pools</span></a>
-    <a href="/listings?category=Camping" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-campground"></i><span>Camping</span></a>
-    <a href="/listings?category=Farms" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-tractor"></i><span>Farms</span></a>
-    <a href="/listings?category=Arctic" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-snowflake"></i><span>Arctic</span></a>
-    <a href="/listings?category=Domes" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-igloo"></i><span>Domes</span></a>
-    <a href="/listings?category=Boats" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all cursor-pointer whitespace-nowrap"><i class="fa-solid fa-ship"></i><span>Boats</span></a>
+<!-- Filters & Toggles -->
+<div class="mb-8">
+  <!-- Filter Chips -->
+  <div class="flex gap-3 overflow-x-auto pb-3 scrollbar-hide w-full mb-4 border-b border-zinc-100">
+    <!-- Categories -->
+    <% const currentCat = typeof category !== 'undefined' ? category : ''; %>
+    <% const cats = [
+      {name: "Apartments", icon: "fa-building"},
+      {name: "Villas", icon: "fa-house"},
+      {name: "Cabins", icon: "fa-house-chimney-window"},
+      {name: "Beachfront", icon: "fa-umbrella-beach"},
+      {name: "Castles", icon: "fa-fort-awesome"},
+      {name: "Unique", icon: "fa-star"}
+    ]; %>
+    <% for(let c of cats) { %>
+      <a href="/listings?category=<%= c.name %>" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border <%= currentCat === c.name ? 'bg-zinc-900 text-white border-zinc-900 shadow-sm' : 'bg-white border-zinc-200 text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50' %> text-sm transition-all cursor-pointer whitespace-nowrap">
+        <i class="fa-solid <%= c.icon %>"></i><span><%= c.name %></span>
+      </a>
+    <% } %>
+
+    <div class="h-8 w-px bg-zinc-300 mx-1 self-center shrink-0"></div>
+
+    <!-- Amenities -->
+    <% const currentAmenity = typeof amenities !== 'undefined' ? amenities : ''; %>
+    <% const amens = [
+      {name: "WiFi", icon: "fa-wifi"},
+      {name: "Pool", icon: "fa-person-swimming"},
+      {name: "Hot Tub", icon: "fa-hot-tub-person"},
+      {name: "Free Parking", icon: "fa-square-parking"},
+      {name: "AC", icon: "fa-snowflake"},
+      {name: "Kitchen", icon: "fa-kitchen-set"},
+      {name: "Pet Friendly", icon: "fa-paw"},
+      {name: "TV", icon: "fa-tv"},
+      {name: "Washer", icon: "fa-shirt"}
+    ]; %>
+    <% for(let a of amens) { %>
+      <a href="/listings?amenities=<%= a.name %>" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border <%= currentAmenity === a.name ? 'bg-orange-600 text-white border-orange-600 shadow-sm' : 'bg-white border-zinc-200 text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50' %> text-sm transition-all cursor-pointer whitespace-nowrap">
+        <i class="fa-solid <%= a.icon %>"></i><span><%= a.name %></span>
+      </a>
+    <% } %>
   </div>
 
-  <div class="flex items-center bg-white border border-zinc-200 rounded-xl px-4 py-2.5 shadow-sm whitespace-nowrap">
-    <label class="flex items-center cursor-pointer gap-3 text-sm font-medium text-zinc-700">
-      <span>Include taxes</span>
-      <div class="relative">
-        <input type="checkbox" id="flexSwitchCheckDefault" class="sr-only peer">
-        <div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-zinc-900"></div>
-      </div>
-    </label>
+  <!-- Tax Toggle Row -->
+  <div class="flex justify-end items-center mt-2">
+    <div class="flex items-center bg-white border border-zinc-200 rounded-xl px-5 py-3 transition-colors hover:border-zinc-300">
+      <label class="flex items-center cursor-pointer gap-4 m-0">
+        <div class="flex items-center gap-3">
+          <span class="text-[15px] font-medium text-zinc-800">Display total price</span>
+          <span class="text-zinc-300 text-sm">|</span>
+          <span class="text-[15px] text-zinc-500">Includes all fees, before taxes</span>
+        </div>
+        <div class="relative ml-4 shrink-0">
+          <input type="checkbox" id="flexSwitchCheckDefault" class="sr-only peer">
+          <div class="w-12 h-7 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-orange-600"></div>
+        </div>
+      </label>
+    </div>
   </div>
 </div>
 
@@ -83,7 +117,7 @@
           Previous
         </span>
       <% } else { %>
-        <a href="/listings?page=<%= currentPage - 1 %><%= typeof q !== 'undefined' && q ? '&q=' + q : '' %><%= typeof category !== 'undefined' && category ? '&category=' + category : '' %>" class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-zinc-300 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50">
+        <a href="/listings?page=<%= currentPage - 1 %><%= typeof q !== 'undefined' && q ? '&q=' + q : '' %><%= typeof category !== 'undefined' && category ? '&category=' + category : '' %><%= typeof amenities !== 'undefined' && amenities ? '&amenities=' + amenities : '' %>" class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-zinc-300 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50">
           Previous
         </a>
       <% } %>
@@ -95,7 +129,7 @@
             <%= i %>
           </span>
         <% } else { %>
-          <a href="/listings?page=<%= i %><%= typeof q !== 'undefined' && q ? '&q=' + q : '' %><%= typeof category !== 'undefined' && category ? '&category=' + category : '' %>" class="relative inline-flex items-center px-4 py-2 border border-zinc-300 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50">
+          <a href="/listings?page=<%= i %><%= typeof q !== 'undefined' && q ? '&q=' + q : '' %><%= typeof category !== 'undefined' && category ? '&category=' + category : '' %><%= typeof amenities !== 'undefined' && amenities ? '&amenities=' + amenities : '' %>" class="relative inline-flex items-center px-4 py-2 border border-zinc-300 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50">
             <%= i %>
           </a>
         <% } %>
@@ -107,7 +141,7 @@
           Next
         </span>
       <% } else { %>
-        <a href="/listings?page=<%= currentPage + 1 %><%= typeof q !== 'undefined' && q ? '&q=' + q : '' %><%= typeof category !== 'undefined' && category ? '&category=' + category : '' %>" class="relative inline-flex items-center px-4 py-2 rounded-r-md border border-zinc-300 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50">
+        <a href="/listings?page=<%= currentPage + 1 %><%= typeof q !== 'undefined' && q ? '&q=' + q : '' %><%= typeof category !== 'undefined' && category ? '&category=' + category : '' %><%= typeof amenities !== 'undefined' && amenities ? '&amenities=' + amenities : '' %>" class="relative inline-flex items-center px-4 py-2 rounded-r-md border border-zinc-300 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50">
           Next
         </a>
       <% } %>

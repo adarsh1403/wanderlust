@@ -23,14 +23,29 @@
     </div>
 
     <div class="mb-5">
-      <label class="block text-sm font-medium text-zinc-700 mb-2">Choose Categories (Optional)</label>
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Property Type</label>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <% const categories = ["Trending", "Rooms", "Iconic Cities", "Mountains", "Castles", "Amazing Pools", "Camping", "Farms", "Arctic", "Domes", "Boats"]; %>
+        <% const categories = ["Apartments", "Villas", "Cabins", "Beachfront", "Castles", "Unique"]; %>
         <% for(let cat of categories) { %>
           <label class="cursor-pointer">
-            <input type="checkbox" name="listing[category]" value="<%= cat %>" id="cat-<%= cat.replace(/\s+/g, '-') %>" class="peer sr-only">
+            <input type="radio" name="listing[category]" value="<%= cat %>" id="cat-<%= cat.replace(/\s+/g, '-') %>" class="peer sr-only">
             <div class="border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-700 hover:border-orange-700 hover:text-orange-700 transition-all peer-checked:bg-orange-50 peer-checked:border-orange-700 peer-checked:text-orange-700 text-center select-none">
               <%= cat %>
+            </div>
+          </label>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Amenities (Optional)</label>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <% const amenities = ["WiFi", "Pool", "Hot Tub", "Free Parking", "AC", "Kitchen", "Pet Friendly", "TV", "Washer"]; %>
+        <% for(let amenity of amenities) { %>
+          <label class="cursor-pointer">
+            <input type="checkbox" name="listing[amenities]" value="<%= amenity %>" id="amenity-<%= amenity.replace(/\s+/g, '-') %>" class="peer sr-only">
+            <div class="border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-700 hover:border-orange-700 hover:text-orange-700 transition-all peer-checked:bg-orange-50 peer-checked:border-orange-700 peer-checked:text-orange-700 text-center select-none">
+              <%= amenity %>
             </div>
           </label>
         <% } %>
