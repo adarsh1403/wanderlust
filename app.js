@@ -38,6 +38,10 @@ const reviewRoutes = require("./routes/review.js");
 // require user routes
 const userRoutes = require("./routes/user.js");
 
+// require booking and dashboard routes
+const bookingRoutes = require("./routes/booking.js");
+const dashboardRoutes = require("./routes/dashboard.js");
+
 const session = require("express-session");
 const flash = require("connect-flash");
 
@@ -145,6 +149,10 @@ app.use("/listings/:id/reviews", reviewRoutes);
 
 // using user routes for all routes starting with /users
 app.use("/", userRoutes);
+
+// using booking routes
+app.use("/listings/:id/bookings", bookingRoutes);
+app.use("/", dashboardRoutes);
 
 // universal (wildcard) route for catching unmatched routes
 // *splat -> modern express way of saying match any path

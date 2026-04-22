@@ -1,0 +1,56 @@
+<% layout("layouts/boilerplate") -%>
+
+<div class="max-w-6xl mx-auto py-8">
+  <h2 class="text-3xl font-bold text-zinc-900 mb-2">My Reservations</h2>
+  <p class="text-zinc-600 mb-8">Manage incoming bookings for your properties.</p>
+
+  <% if (reservations.length === 0) { %>
+    <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-8 text-center">
+      <i class="fa-solid fa-calendar-xmark text-4xl text-zinc-400 mb-4"></i>
+      <h3 class="text-xl font-semibold text-zinc-900 mb-2">No reservations yet.</h3>
+      <p class="text-zinc-500 mb-6">Make sure your listings are attractive and up to date to get more bookings.</p>
+    </div>
+  <% } else { %>
+    <div class="bg-white border border-zinc-200 rounded-xl shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-zinc-50 border-b border-zinc-200 text-sm text-zinc-600 uppercase tracking-wider">
+              <th class="p-4 font-semibold">Guest</th>
+              <th class="p-4 font-semibold">Property</th>
+              <th class="p-4 font-semibold">Check-in</th>
+              <th class="p-4 font-semibold">Check-out</th>
+              <th class="p-4 font-semibold text-right">Earnings</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-200">
+            <% reservations.forEach(res => { %>
+              <tr class="hover:bg-zinc-50 transition-colors">
+                <td class="p-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center font-bold">
+                      <%= res.guest.username.charAt(0).toUpperCase() %>
+                    </div>
+                    <span class="font-medium text-zinc-900"><%= res.guest.username %></span>
+                  </div>
+                </td>
+                <td class="p-4">
+                  <a href="/listings/<%= res.listing._id %>" class="text-orange-700 hover:underline font-medium"><%= res.listing.title %></a>
+                </td>
+                <td class="p-4 text-sm text-zinc-700">
+                  <%= res.checkIn.toLocaleDateString('en-GB') %>
+                </td>
+                <td class="p-4 text-sm text-zinc-700">
+                  <%= res.checkOut.toLocaleDateString('en-GB') %>
+                </td>
+                <td class="p-4 text-right font-bold text-zinc-900">
+                  &#8377; <%= res.totalPrice.toLocaleString("en-IN") %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% } %>
+</div>

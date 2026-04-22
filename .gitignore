@@ -4,6 +4,12 @@
 ### AI ###
 .agent/
 
+### prettier ###
+.prettierignore
+
+### vs code ###
+.vscode/*
+
 ### NextJS ###
 # dependencies
 /node_modules

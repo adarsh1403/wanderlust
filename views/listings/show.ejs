@@ -134,9 +134,36 @@
         </div>
       </div>
 
-      <!-- Right column: Review Form -->
-      <div class="col-span-1 mt-10 lg:mt-0">
-        <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-sm mb-8 sticky top-24">
+      <!-- Right column: Sidebar -->
+      <div class="col-span-1 mt-10 lg:mt-0 space-y-8">
+        
+        <!-- Booking Form -->
+        <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-sm sticky top-24 z-10">
+          <h4 class="text-xl font-semibold text-zinc-900 mb-1">
+            &#8377; <span id="booking-price-display" data-price="<%= listing.price %>"><%= listing.price.toLocaleString("en-IN") %></span> <span class="text-sm font-normal text-zinc-500">night</span>
+          </h4>
+          <p class="text-sm text-zinc-500 mb-5" id="booking-total-display">Select dates to see total</p>
+          
+          <form id="booking-form" action="/listings/<%= listing._id %>/bookings" method="POST" class="needs-validation" novalidate>
+            <div class="mb-4">
+              <input type="text" id="booking-dates" class="w-full border border-zinc-300 rounded-lg px-3 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent bg-white cursor-pointer" placeholder="Check-in - Check-out" required>
+              <input type="hidden" id="booking-checkin" name="booking[checkIn]">
+              <input type="hidden" id="booking-checkout" name="booking[checkOut]">
+              <input type="hidden" id="booking-totalprice" name="booking[totalPrice]">
+            </div>
+            
+            <% if (currentUser && !currentUser._id.equals(listing.owner._id)) { %>
+              <button type="submit" id="booking-submit-btn" class="w-full bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-3 text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Reserve</button>
+            <% } else if (currentUser && currentUser._id.equals(listing.owner._id)) { %>
+              <button type="button" class="w-full bg-zinc-300 text-zinc-600 rounded-lg px-5 py-3 text-sm font-semibold cursor-not-allowed" disabled>You own this property</button>
+            <% } else { %>
+              <a href="/login" class="block text-center w-full bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-3 text-sm font-semibold transition-colors">Log in to Reserve</a>
+            <% } %>
+          </form>
+        </div>
+
+        <!-- Review Form -->
+        <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-sm">
           <h4 class="text-lg font-semibold text-zinc-900 mb-4">Leave a review</h4>
           <% if (!currentUser) { %>
             <p class="text-sm text-zinc-600">Please <a href="/login" class="text-orange-700 hover:underline font-medium">log in</a> to leave a review.</p>
@@ -177,3 +204,4 @@
   </div>
 
   <script src="/js/map.js"></script>
+  <script src="/js/booking-calendar.js"></script>

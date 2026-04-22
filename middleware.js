@@ -67,3 +67,15 @@ module.exports.validateReview = (req, res, next) => {
         next();
     }
 };
+
+// middleware function for validating input fields coming from booking route
+module.exports.validateBooking = (req, res, next) => {
+    const { bookingSchema } = require("./schema.js");
+    const { error } = bookingSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+};
