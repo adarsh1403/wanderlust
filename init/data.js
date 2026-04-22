@@ -349,4 +349,12 @@ const sampleListings = [
   },
 ];
 
-module.exports = { data: sampleListings };
+module.exports = {
+  data: sampleListings.map((listing) => ({
+    ...listing,
+    geometry: {
+      type: "Point",
+      coordinates: [77.209, 28.6139], // Default placeholder coordinates
+    },
+  })),
+};
