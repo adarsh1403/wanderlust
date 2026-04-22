@@ -7,13 +7,27 @@
   <div class="max-w-6xl mx-auto py-6">
     <div class="mb-6">
       <h2 class="text-2xl font-bold text-zinc-900 mb-2"><%= listing.title %></h2>
-      <p class="text-sm text-zinc-500 mb-3">Hosted by <%= listing.owner.username %></p>
+      <div class="flex items-center gap-2 mb-3">
+        <% if (avgRating > 0) { %>
+          <div class="flex items-center gap-1 font-semibold text-zinc-900">
+            <i class="fa-solid fa-star text-sm"></i>
+            <span><%= avgRating %></span>
+            <a href="#reviews" class="text-zinc-500 font-normal underline hover:text-zinc-900 transition-colors ml-1">· <%= listing.reviews.length %> <%= listing.reviews.length === 1 ? 'review' : 'reviews' %></a>
+          </div>
+        <% } else { %>
+          <div class="text-sm text-zinc-500 font-medium">
+            <i class="fa-regular fa-star text-sm mr-1"></i>New
+          </div>
+        <% } %>
+        <span class="text-zinc-300">|</span>
+        <p class="text-sm text-zinc-500">Hosted by <%= listing.owner.username %></p>
+      </div>
     </div>
 
     <div class="relative mb-8">
       <img src="<%= listing.image.url %>" alt="listing image" class="w-full h-80 object-cover rounded-xl shadow-sm">
       
-      <% if (!listing.isAvailable) { %>
+      <% if (listing.isAvailable === false) { %>
         <div class="absolute top-4 left-4 bg-zinc-900/90 text-white text-sm font-semibold px-4 py-2 rounded-lg backdrop-blur-sm shadow-sm z-10">
           Not Available
         </div>
@@ -55,7 +69,7 @@
               <button class="bg-zinc-900 text-white hover:bg-zinc-700 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors w-full text-center">Delete</button>
             </form>
             <form method="POST" action="/listings/<%= listing._id %>/toggle-availability?_method=PATCH" class="m-0">
-              <% if (listing.isAvailable) { %>
+              <% if (listing.isAvailable !== false) { %>
                 <button type="submit" class="border border-zinc-300 text-zinc-700 hover:bg-zinc-50 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors w-full text-center">Mark as Booked</button>
               <% } else { %>
                 <button type="submit" class="bg-green-600 text-white hover:bg-green-700 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors w-full text-center">Mark as Available</button>
@@ -65,7 +79,7 @@
         <% } %>
 
         <!-- Reviews list -->
-        <div class="pt-8 border-t border-zinc-200">
+        <div id="reviews" class="pt-8 border-t border-zinc-200">
           <h3 class="text-xl font-semibold text-zinc-900 mb-6">Reviews</h3>
           <% if (listing.reviews.length === 0) { %>
             <p class="text-sm text-zinc-500 bg-zinc-50 rounded-lg p-4 border border-zinc-100">No reviews yet. Be the first to review this listing!</p>

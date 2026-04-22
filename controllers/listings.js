@@ -3,6 +3,7 @@ const User = require("../models/user.js");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const baseClient = mbxGeocoding({ accessToken: mapBoxToken });
+const { getAverageRating } = require("../utils/rating.js");
 
 module.exports.index = async (req, res) => {
   const { category, q } = req.query;
@@ -24,7 +25,17 @@ module.exports.index = async (req, res) => {
 
     query.$or = searchQuery;
   }
-  const allListings = await Listing.find(query);
+  const listings = await Listing.find(query).populate("reviews").lean();
+
+  // 2. Loop through the results and calculate the average
+  const allListings = listings.map((listing) => {
+    return {
+      ...listing,
+      avgRating: getAverageRating(listing.reviews),
+    };
+  });
+
+  // 3. Render as normal (the UI will now have access to listing.avgRating)
   res.render("listings/index.ejs", { allListings });
 };
 
@@ -41,7 +52,10 @@ module.exports.showListing = async (req, res) => {
     req.flash("error", "Cannot find that listing!");
     return res.redirect("/listings");
   }
-  res.render("listings/show.ejs", { listing });
+  
+  const avgRating = getAverageRating(listing.reviews);
+  
+  res.render("listings/show.ejs", { listing, avgRating });
 };
 
 module.exports.createListing = async (req, res) => {
