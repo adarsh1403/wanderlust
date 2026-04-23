@@ -1,3 +1,5 @@
+const { CATEGORIES, AMENITIES } = require("../constants.js");
+
 const sampleListings = [
   {
     title: "Cozy Beachfront Cottage",
@@ -349,12 +351,29 @@ const sampleListings = [
   },
 ];
 
+const getRandomAmenities = (arr) => {
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  const numAmenities = Math.floor(Math.random() * arr.length) + 1;
+  return shuffled.slice(0, numAmenities);
+};
+
 module.exports = {
-  data: sampleListings.map((listing) => ({
-    ...listing,
-    geometry: {
-      type: "Point",
-      coordinates: [77.209, 28.6139], // Default placeholder coordinates
-    },
-  })),
+  data: sampleListings.map((listing) => {
+    const randomCategory = [
+      CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)],
+    ];
+    const randomAmenities = getRandomAmenities(AMENITIES);
+    const isAvailable = Math.random() > 0.2;
+
+    return {
+      ...listing,
+      category: randomCategory,
+      amenities: randomAmenities,
+      isAvailable,
+      geometry: {
+        type: "Point",
+        coordinates: [77.209, 28.6139],
+      },
+    };
+  }),
 };

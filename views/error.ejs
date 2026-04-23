@@ -1,10 +1,9 @@
-<!-- template for displaying error messages -->
+<%- /* Template for displaying error messages */ %>
 <% layout("/layouts/boilerplate") %>
 
-    <div class="row mt-3">
-        <div class="alert alert-danger col-6 offset-3" role="alert">
-            <p class="alert-heading">
-                <%= message %>
-            </p>
-        </div>
-    </div>
+<div class="max-w-lg mx-auto mt-12 bg-red-50 border border-red-200 rounded-xl p-8 text-center shadow-sm">
+  <i class="fa-solid fa-circle-exclamation text-red-400 text-4xl mb-4"></i>
+  <h2 class="text-xl font-bold text-red-800 mb-2">Something went wrong</h2>
+  <p class="text-red-700 text-sm"><%= message %></p>
+  <a href="/listings" class="inline-block mt-6 bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors">Back to Listings</a>
+</div>

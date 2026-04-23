@@ -21,7 +21,7 @@
             <!-- Right: Links -->
             <div class="hidden lg:flex items-center space-x-4">
                 <a class="text-sm text-zinc-700 hover:text-zinc-900 font-medium" href="/listings/new">Host with Driftr</a>
-                <% if (!currentUser) { %>
+                <% if (typeof currentUser === 'undefined' || !currentUser) { %>
                     <a class="text-sm text-zinc-700 hover:text-zinc-900 font-medium" href="/login">Login</a>
                     <a class="text-sm text-zinc-700 hover:text-zinc-900 font-medium" href="/signup">Signup</a>
                 <% } else { %>
@@ -51,7 +51,7 @@
                 </button>
             </form>
             <a class="block text-sm text-zinc-700 hover:text-zinc-900 font-medium py-2" href="/listings/new">Host with Driftr</a>
-            <% if (!currentUser) { %>
+            <% if (typeof currentUser === 'undefined' || !currentUser) { %>
                 <a class="block text-sm text-zinc-700 hover:text-zinc-900 font-medium py-2" href="/login">Login</a>
                 <a class="block text-sm text-zinc-700 hover:text-zinc-900 font-medium py-2" href="/signup">Signup</a>
             <% } else { %>

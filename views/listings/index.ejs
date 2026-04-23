@@ -6,17 +6,9 @@
   <div class="flex gap-3 overflow-x-auto pb-3 scrollbar-hide w-full mb-4 border-b border-zinc-100">
     <!-- Categories -->
     <% const currentCat = typeof category !== 'undefined' ? category : ''; %>
-    <% const cats = [
-      {name: "Apartments", icon: "fa-building"},
-      {name: "Villas", icon: "fa-house"},
-      {name: "Cabins", icon: "fa-house-chimney-window"},
-      {name: "Beachfront", icon: "fa-umbrella-beach"},
-      {name: "Castles", icon: "fa-fort-awesome"},
-      {name: "Unique", icon: "fa-star"}
-    ]; %>
-    <% for(let c of cats) { %>
-      <a href="/listings?category=<%= c.name %>" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border <%= currentCat === c.name ? 'bg-zinc-900 text-white border-zinc-900 shadow-sm' : 'bg-white border-zinc-200 text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50' %> text-sm transition-all cursor-pointer whitespace-nowrap">
-        <i class="fa-solid <%= c.icon %>"></i><span><%= c.name %></span>
+    <% for(let name of CATEGORIES) { %>
+      <a href="/listings?category=<%= name %>" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border <%= currentCat === name ? 'bg-zinc-900 text-white border-zinc-900 shadow-sm' : 'bg-white border-zinc-200 text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50' %> text-sm transition-all cursor-pointer whitespace-nowrap">
+        <i class="fa-solid <%= CATEGORY_ICONS[name] %>"></i><span><%= name %></span>
       </a>
     <% } %>
 
@@ -24,20 +16,9 @@
 
     <!-- Amenities -->
     <% const currentAmenity = typeof amenities !== 'undefined' ? amenities : ''; %>
-    <% const amens = [
-      {name: "WiFi", icon: "fa-wifi"},
-      {name: "Pool", icon: "fa-person-swimming"},
-      {name: "Hot Tub", icon: "fa-hot-tub-person"},
-      {name: "Free Parking", icon: "fa-square-parking"},
-      {name: "AC", icon: "fa-snowflake"},
-      {name: "Kitchen", icon: "fa-kitchen-set"},
-      {name: "Pet Friendly", icon: "fa-paw"},
-      {name: "TV", icon: "fa-tv"},
-      {name: "Washer", icon: "fa-shirt"}
-    ]; %>
-    <% for(let a of amens) { %>
-      <a href="/listings?amenities=<%= a.name %>" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border <%= currentAmenity === a.name ? 'bg-orange-600 text-white border-orange-600 shadow-sm' : 'bg-white border-zinc-200 text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50' %> text-sm transition-all cursor-pointer whitespace-nowrap">
-        <i class="fa-solid <%= a.icon %>"></i><span><%= a.name %></span>
+    <% for(let name of AMENITIES) { %>
+      <a href="/listings?amenities=<%= name %>" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border <%= currentAmenity === name ? 'bg-orange-600 text-white border-orange-600 shadow-sm' : 'bg-white border-zinc-200 text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50' %> text-sm transition-all cursor-pointer whitespace-nowrap">
+        <i class="fa-solid <%= AMENITY_ICONS[name] %>"></i><span><%= name %></span>
       </a>
     <% } %>
   </div>

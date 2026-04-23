@@ -1,15 +1,19 @@
 const express = require("express");
-const { listingSchema } = require("../schema.js");
-const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const Listing = require("../models/listing.js");
-const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
-//creating a new router object using express.Router() method
 const router = express.Router();
+const wrapAsync = require("../utils/wrapAsync.js");
+const { isLoggedIn, isOwner, validateListing, sanitizeListing } = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 const multer = require("multer");
-const { storage } = require("../cloudConfig.js");
-const upload = multer({ storage });
+const { storage } = require("../config/cloudinary.js");
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB max
+  fileFilter: (_req, file, cb) => {
+    const allowed = ["image/jpeg", "image/jpg", "image/png"];
+    cb(null, allowed.includes(file.mimetype));
+  },
+});
 
 router
   .route("/")
@@ -17,8 +21,9 @@ router
   .post(
     isLoggedIn,
     upload.single("listing[image]"),
+    sanitizeListing,
     validateListing,
-    wrapAsync(listingController.createListing),
+    wrapAsync(listingController.createListing)
   );
 
 router.route("/new").get(isLoggedIn, listingController.renderNewForm);
@@ -30,8 +35,9 @@ router
     isLoggedIn,
     isOwner,
     upload.single("listing[image]"),
+    sanitizeListing,
     validateListing,
-    wrapAsync(listingController.updateListing),
+    wrapAsync(listingController.updateListing)
   )
   .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing));
 
@@ -43,8 +49,9 @@ router.patch(
   "/:id/toggle-availability",
   isLoggedIn,
   isOwner,
-  wrapAsync(listingController.toggleAvailability),
+  wrapAsync(listingController.toggleAvailability)
 );
 
 router.post("/:id/save", isLoggedIn, wrapAsync(listingController.saveListing));
+
 module.exports = router;

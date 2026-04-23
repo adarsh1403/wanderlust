@@ -29,8 +29,7 @@
     <div class="mb-5">
       <label class="block text-sm font-medium text-zinc-700 mb-2">Property Type</label>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <% const categories = ["Apartments", "Villas", "Cabins", "Beachfront", "Castles", "Unique"]; %>
-        <% for(let cat of categories) { %>
+        <% for(let cat of CATEGORIES) { %>
           <label class="cursor-pointer">
             <input type="radio" name="listing[category]" value="<%= cat %>" id="cat-<%= cat.replace(/\s+/g, '-') %>" class="peer sr-only" <%= listing.category && listing.category.includes(cat) ? 'checked' : '' %>>
             <div class="border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-700 hover:border-orange-700 hover:text-orange-700 transition-all peer-checked:bg-orange-50 peer-checked:border-orange-700 peer-checked:text-orange-700 text-center select-none">
@@ -44,8 +43,7 @@
     <div class="mb-5">
       <label class="block text-sm font-medium text-zinc-700 mb-2">Amenities (Optional)</label>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <% const amenities = ["WiFi", "Pool", "Hot Tub", "Free Parking", "AC", "Kitchen", "Pet Friendly", "TV", "Washer"]; %>
-        <% for(let amenity of amenities) { %>
+        <% for(let amenity of AMENITIES) { %>
           <label class="cursor-pointer">
             <input type="checkbox" name="listing[amenities]" value="<%= amenity %>" id="amenity-<%= amenity.replace(/\s+/g, '-') %>" class="peer sr-only" <%= listing.amenities && listing.amenities.includes(amenity) ? 'checked' : '' %>>
             <div class="border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-700 hover:border-orange-700 hover:text-orange-700 transition-all peer-checked:bg-orange-50 peer-checked:border-orange-700 peer-checked:text-orange-700 text-center select-none">

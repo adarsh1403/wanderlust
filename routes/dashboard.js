@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const bookingController = require("../controllers/bookings.js");
+const dashboardController = require("../controllers/dashboard.js");
 const { isLoggedIn } = require("../middleware.js");
 
-// GET /trips - Guest Dashboard
-router.get("/trips", isLoggedIn, wrapAsync(bookingController.renderTrips));
-
-// GET /reservations - Host Dashboard
-router.get("/reservations", isLoggedIn, wrapAsync(bookingController.renderReservations));
+router.get("/trips", isLoggedIn, wrapAsync(dashboardController.renderTrips));
+router.get("/reservations", isLoggedIn, wrapAsync(dashboardController.renderReservations));
 
 module.exports = router;

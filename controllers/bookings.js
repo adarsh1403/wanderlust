@@ -1,14 +1,33 @@
 const Booking = require("../models/booking.js");
 const Listing = require("../models/listing.js");
+const mongoose = require("mongoose");
 
 module.exports.createBooking = async (req, res) => {
   const { id } = req.params;
-  const { checkIn, checkOut, totalPrice } = req.body.booking;
+  const { checkIn, checkOut } = req.body.booking;
 
   const checkInDate = new Date(checkIn);
   const checkOutDate = new Date(checkOut);
 
-  // Overlap Query
+  const listing = await Listing.findById(id);
+  if (!listing) {
+    req.flash("error", "Listing not found!");
+    return res.redirect("/listings");
+  }
+
+  // Prevent owner from booking their own listing
+  if (listing.owner.equals(req.user._id)) {
+    req.flash("error", "You cannot book your own listing.");
+    return res.redirect(`/listings/${id}`);
+  }
+
+  // Prevent bookings for listings marked unavailable by owner
+  if (listing.isAvailable === false) {
+    req.flash("error", "This listing is currently not available for booking.");
+    return res.redirect(`/listings/${id}`);
+  }
+
+  // Overlap check — three cases cover all possible overlaps
   const overlappingBookings = await Booking.find({
     listing: id,
     $or: [
@@ -23,18 +42,18 @@ module.exports.createBooking = async (req, res) => {
     return res.redirect(`/listings/${id}`);
   }
 
-  const listing = await Listing.findById(id);
-  if (!listing) {
-    req.flash("error", "Listing not found!");
-    return res.redirect("/listings");
-  }
+  // Compute price server-side — never trust client-submitted price
+  const nights = Math.ceil(
+    (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24),
+  );
+  const totalPrice = nights * listing.price;
 
   const newBooking = new Booking({
     listing: id,
     guest: req.user._id,
     checkIn: checkInDate,
     checkOut: checkOutDate,
-    totalPrice: totalPrice,
+    totalPrice,
   });
 
   await newBooking.save();
@@ -43,40 +62,20 @@ module.exports.createBooking = async (req, res) => {
 };
 
 module.exports.getBookedDates = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res.status(400).json({ error: "Invalid listing ID" });
+  }
+
   try {
-    const { id } = req.params;
     const bookings = await Booking.find({ listing: id });
-
-    const bookedRanges = bookings.map((booking) => {
-      return {
-        from: booking.checkIn,
-        to: booking.checkOut,
-      };
-    });
-
+    const bookedRanges = bookings.map((booking) => ({
+      from: booking.checkIn,
+      to: booking.checkOut,
+    }));
     res.json(bookedRanges);
   } catch (e) {
     res.status(500).json({ error: "Failed to fetch dates" });
   }
-};
-
-module.exports.renderTrips = async (req, res) => {
-  const bookings = await Booking.find({ guest: req.user._id })
-    .populate("listing")
-    .sort({ checkIn: 1 });
-  res.render("bookings/trips.ejs", { bookings });
-};
-
-module.exports.renderReservations = async (req, res) => {
-  // Find listings owned by current user
-  const listings = await Listing.find({ owner: req.user._id });
-  const listingIds = listings.map((listing) => listing._id);
-
-  // Find bookings for those listings
-  const reservations = await Booking.find({ listing: { $in: listingIds } })
-    .populate("listing")
-    .populate("guest")
-    .sort({ checkIn: 1 });
-
-  res.render("bookings/reservations.ejs", { reservations });
 };

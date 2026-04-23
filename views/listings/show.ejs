@@ -9,189 +9,225 @@
 
   <div class="max-w-6xl mx-auto py-6">
     <div class="mb-6">
-      <h2 class="text-2xl font-bold text-zinc-900 mb-2"><%= listing.title %></h2>
+      <h2 class="text-2xl font-bold text-zinc-900 mb-2">
+        <%= listing.title %>
+      </h2>
       <div class="flex items-center gap-2 mb-3">
-        <% if (avgRating > 0) { %>
+        <% if (avgRating> 0) { %>
           <div class="flex items-center gap-1 font-semibold text-zinc-900">
             <i class="fa-solid fa-star text-sm"></i>
-            <span><%= avgRating %></span>
-            <a href="#reviews" class="text-zinc-500 font-normal underline hover:text-zinc-900 transition-colors ml-1">· <%= listing.reviews.length %> <%= listing.reviews.length === 1 ? 'review' : 'reviews' %></a>
+            <span>
+              <%= avgRating %>
+            </span>
+            <a href="#reviews" class="text-zinc-500 font-normal underline hover:text-zinc-900 transition-colors ml-1">·
+              <%= listing.reviews.length %>
+                <%= listing.reviews.length===1 ? 'review' : 'reviews' %></a>
           </div>
-        <% } else { %>
-          <div class="text-sm text-zinc-500 font-medium">
-            <i class="fa-regular fa-star text-sm mr-1"></i>New
-          </div>
-        <% } %>
-        <span class="text-zinc-300">|</span>
-        <p class="text-sm text-zinc-500">Hosted by <%= listing.owner.username %></p>
+          <% } else { %>
+            <div class="text-sm text-zinc-500 font-medium">
+              <i class="fa-regular fa-star text-sm mr-1"></i>New
+            </div>
+            <% } %>
+              <span class="text-zinc-300">|</span>
+              <p class="text-sm text-zinc-500">Hosted by <%= listing.owner.username %>
+              </p>
       </div>
     </div>
 
     <div class="relative mb-8">
       <img src="<%= listing.image.url %>" alt="listing image" class="w-full h-80 object-cover rounded-xl shadow-sm">
-      
-      <% if (listing.isAvailable === false) { %>
-        <div class="absolute top-4 left-4 bg-zinc-900/90 text-white text-sm font-semibold px-4 py-2 rounded-lg backdrop-blur-sm shadow-sm z-10">
+
+      <% if (listing.isAvailable===false) { %>
+        <div
+          class="absolute top-4 left-4 bg-zinc-900/90 text-white text-sm font-semibold px-4 py-2 rounded-lg backdrop-blur-sm shadow-sm z-10">
           Not Available
         </div>
-      <% } %>
-      
-      <% if (currentUser) { %>
-          <% const isSaved = currentUser.savedListings && currentUser.savedListings.some(id => id.equals(listing._id)) %>
-          <form action="/listings/<%= listing._id %>/save" method="POST" class="absolute top-4 right-4 z-10 m-0">
-              <button type="submit" class="bg-white/80 hover:bg-white backdrop-blur-sm border-none p-2 rounded-full shadow-sm transition-all hover:scale-105 active:scale-95 focus:outline-none cursor-pointer flex items-center justify-center w-10 h-10">
+        <% } %>
+
+          <% if (currentUser) { %>
+            <% const isSaved=currentUser.savedListings && currentUser.savedListings.some(id=> id.equals(listing._id)) %>
+              <form action="/listings/<%= listing._id %>/save" method="POST" class="absolute top-4 right-4 z-10 m-0">
+                <button type="submit"
+                  class="bg-white/80 hover:bg-white backdrop-blur-sm border-none p-2 rounded-full shadow-sm transition-all hover:scale-105 active:scale-95 focus:outline-none cursor-pointer flex items-center justify-center w-10 h-10">
                   <% if (isSaved) { %>
-                      <i class="fa-solid fa-heart text-orange-600 text-xl"></i> 
-                  <% } else { %>
-                      <i class="fa-regular fa-heart text-zinc-700 text-xl"></i> 
-                  <% } %>
-              </button>
-          </form>
-      <% } %>
+                    <i class="fa-solid fa-heart text-orange-600 text-xl"></i>
+                    <% } else { %>
+                      <i class="fa-regular fa-heart text-zinc-700 text-xl"></i>
+                      <% } %>
+                </button>
+              </form>
+              <% } %>
     </div>
 
     <div class="lg:grid lg:grid-cols-3 gap-10">
       <!-- Left column: Details -->
       <div class="col-span-2">
         <div class="mb-8">
-          <p class="text-sm text-zinc-700 mb-4 whitespace-pre-line"><%= listing.description %></p>
+          <p class="text-sm text-zinc-700 mb-4 whitespace-pre-line">
+            <%= listing.description %>
+          </p>
           <div class="flex items-center gap-2 text-sm text-zinc-700 mb-2">
             <i class="fa-solid fa-tag w-5 text-center"></i>
-            <span class="font-semibold text-zinc-900">&#8377; <%= listing.price.toLocaleString("en-IN") %></span> / night
+            <span class="font-semibold text-zinc-900">&#8377; <%= listing.price.toLocaleString("en-IN") %></span> /
+            night
           </div>
           <div class="flex items-center gap-2 text-sm text-zinc-700 mb-2">
             <i class="fa-solid fa-location-dot w-5 text-center"></i>
-            <span><%= listing.location %>, <%= listing.country %></span>
+            <span>
+              <%= listing.location %>, <%= listing.country %>
+            </span>
           </div>
         </div>
 
-        <% if (listing.amenities && listing.amenities.length > 0) { %>
+        <% if (listing.amenities && listing.amenities.length> 0) { %>
           <div class="mb-8 pt-6 border-t border-zinc-200">
             <h3 class="text-xl font-semibold text-zinc-900 mb-4">What this place offers</h3>
             <div class="grid grid-cols-2 gap-y-4 gap-x-2">
-              <% 
-                const amenityIcons = {
-                  "WiFi": "fa-wifi",
-                  "Pool": "fa-person-swimming",
-                  "Hot Tub": "fa-hot-tub-person",
-                  "Free Parking": "fa-square-parking",
-                  "AC": "fa-snowflake",
-                  "Kitchen": "fa-kitchen-set",
-                  "Pet Friendly": "fa-paw",
-                  "TV": "fa-tv",
-                  "Washer": "fa-shirt"
-                };
-              %>
               <% for(let amenity of listing.amenities) { %>
                 <div class="flex items-center gap-3 text-zinc-700">
-                  <i class="fa-solid <%= amenityIcons[amenity] || 'fa-check' %> w-5 text-center text-lg"></i>
-                  <span><%= amenity %></span>
+                  <i class="fa-solid <%= AMENITY_ICONS[amenity] || 'fa-check' %> w-5 text-center text-lg"></i>
+                  <span>
+                    <%= amenity %>
+                  </span>
                 </div>
-              <% } %>
+                <% } %>
             </div>
           </div>
-        <% } %>
-
-        <% if (currentUser && listing.owner._id.equals(currentUser._id)) { %>
-          <div class="flex flex-wrap gap-3 mb-8 pt-6 border-t border-zinc-200">
-            <a href="/listings/<%= listing._id %>/edit" class="bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors text-center">Edit</a>
-            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="m-0">
-              <button class="bg-zinc-900 text-white hover:bg-zinc-700 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors w-full text-center">Delete</button>
-            </form>
-            <form method="POST" action="/listings/<%= listing._id %>/toggle-availability?_method=PATCH" class="m-0">
-              <% if (listing.isAvailable !== false) { %>
-                <button type="submit" class="border border-zinc-300 text-zinc-700 hover:bg-zinc-50 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors w-full text-center">Mark as Booked</button>
-              <% } else { %>
-                <button type="submit" class="bg-green-600 text-white hover:bg-green-700 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors w-full text-center">Mark as Available</button>
-              <% } %>
-            </form>
-          </div>
-        <% } %>
-
-        <!-- Reviews list -->
-        <div id="reviews" class="pt-8 border-t border-zinc-200">
-          <h3 class="text-xl font-semibold text-zinc-900 mb-6">Reviews</h3>
-          <% if (listing.reviews.length === 0) { %>
-            <p class="text-sm text-zinc-500 bg-zinc-50 rounded-lg p-4 border border-zinc-100">No reviews yet. Be the first to review this listing!</p>
-          <% } else { %>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <% listing.reviews.forEach(review => { %>
-              <div class="bg-white border border-zinc-100 rounded-xl p-5 shadow-sm relative group">
-                <div class="flex items-center justify-between mb-2">
-                  <h5 class="text-sm font-semibold text-zinc-900"><%= review.author.username %></h5>
-                  <% if (currentUser && review.author._id.equals(currentUser._id)) { %>
-                    <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="m-0">
-                      <button class="text-red-600 hover:text-red-800 text-xs font-medium underline opacity-0 group-hover:opacity-100 transition-opacity">Delete</button>
-                    </form>
-                  <% } %>
-                </div>
-                <p class="starability-result text-sm mb-2" data-rating="<%= review.rating %>"></p>
-                <p class="text-sm text-zinc-700 mt-2"><%= review.comment %></p>
-              </div>
-            <% }) %>
-            </div>
           <% } %>
-        </div>
+
+            <% if (currentUser && listing.owner._id.equals(currentUser._id)) { %>
+              <div class="flex flex-wrap gap-3 mb-8 pt-6 border-t border-zinc-200">
+                <a href="/listings/<%= listing._id %>/edit"
+                  class="bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors text-center">Edit</a>
+                <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="m-0">
+                  <button
+                    class="bg-zinc-900 text-white hover:bg-zinc-700 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors w-full text-center">Delete</button>
+                </form>
+                <form method="POST" action="/listings/<%= listing._id %>/toggle-availability?_method=PATCH" class="m-0">
+                  <% if (listing.isAvailable !==false) { %>
+                    <button type="submit"
+                      class="border border-zinc-300 text-zinc-700 hover:bg-zinc-50 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors w-full text-center">Mark
+                      as Booked</button>
+                    <% } else { %>
+                      <button type="submit"
+                        class="bg-green-600 text-white hover:bg-green-700 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors w-full text-center">Mark
+                        as Available</button>
+                      <% } %>
+                </form>
+              </div>
+              <% } %>
+
+                <!-- Reviews list -->
+                <div id="reviews" class="pt-8 border-t border-zinc-200">
+                  <h3 class="text-xl font-semibold text-zinc-900 mb-6">Reviews</h3>
+                  <% if (listing.reviews.length===0) { %>
+                    <p class="text-sm text-zinc-500 bg-zinc-50 rounded-lg p-4 border border-zinc-100">No reviews yet. Be
+                      the first to review this listing!</p>
+                    <% } else { %>
+                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <% listing.reviews.forEach(review=> { %>
+                          <div class="bg-white border border-zinc-100 rounded-xl p-5 shadow-sm relative group">
+                            <div class="flex items-center justify-between mb-2">
+                              <h5 class="text-sm font-semibold text-zinc-900">
+                                <%= review.author.username %>
+                              </h5>
+                              <% if (currentUser && review.author._id.equals(currentUser._id)) { %>
+                                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                  method="POST" class="m-0">
+                                  <button
+                                    class="text-red-600 hover:text-red-800 text-xs font-medium underline opacity-0 group-hover:opacity-100 transition-opacity">Delete</button>
+                                </form>
+                                <% } %>
+                            </div>
+                            <p class="starability-result text-sm mb-2" data-rating="<%= review.rating %>"></p>
+                            <p class="text-sm text-zinc-700 mt-2">
+                              <%= review.comment %>
+                            </p>
+                          </div>
+                          <% }) %>
+                      </div>
+                      <% } %>
+                </div>
       </div>
 
       <!-- Right column: Sidebar -->
       <div class="col-span-1 mt-10 lg:mt-0 space-y-8">
-        
+
         <!-- Booking Form -->
         <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-sm">
           <h4 class="text-xl font-semibold text-zinc-900 mb-1">
-            &#8377; <span id="booking-price-display" data-price="<%= listing.price %>"><%= listing.price.toLocaleString("en-IN") %></span> <span class="text-sm font-normal text-zinc-500">night</span>
+            &#8377; <span id="booking-price-display" data-price="<%= listing.price %>">
+              <%= listing.price.toLocaleString("en-IN") %>
+            </span> <span class="text-sm font-normal text-zinc-500">night</span>
           </h4>
           <p class="text-sm text-zinc-500 mb-5" id="booking-total-display">Select dates to see total</p>
-          
-          <form id="booking-form" action="/listings/<%= listing._id %>/bookings" method="POST" class="needs-validation" novalidate>
+
+          <form id="booking-form" action="/listings/<%= listing._id %>/bookings" method="POST" class="needs-validation"
+            novalidate>
             <div class="mb-4">
-              <input type="text" id="booking-dates" class="w-full border border-zinc-300 rounded-lg px-3 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent bg-white cursor-pointer" placeholder="Check-in - Check-out" required>
+              <input type="text" id="booking-dates"
+                class="w-full border border-zinc-300 rounded-lg px-3 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent bg-white cursor-pointer"
+                placeholder="Check-in - Check-out" required>
               <input type="hidden" id="booking-checkin" name="booking[checkIn]">
               <input type="hidden" id="booking-checkout" name="booking[checkOut]">
               <input type="hidden" id="booking-totalprice" name="booking[totalPrice]">
             </div>
-            
-            <% if (currentUser && !currentUser._id.equals(listing.owner._id)) { %>
-              <button type="submit" id="booking-submit-btn" class="w-full bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-3 text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Reserve</button>
-            <% } else if (currentUser && currentUser._id.equals(listing.owner._id)) { %>
-              <button type="button" class="w-full bg-zinc-300 text-zinc-600 rounded-lg px-5 py-3 text-sm font-semibold cursor-not-allowed" disabled>You own this property</button>
-            <% } else { %>
-              <a href="/login" class="block text-center w-full bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-3 text-sm font-semibold transition-colors">Log in to Reserve</a>
-            <% } %>
+
+            <% if (listing.isAvailable===false) { %>
+              <button type="button"
+                class="w-full bg-zinc-300 text-zinc-600 rounded-lg px-5 py-3 text-sm font-semibold cursor-not-allowed"
+                disabled>Not available for booking</button>
+              <% } else if (currentUser && !currentUser._id.equals(listing.owner._id)) { %>
+                <button type="submit" id="booking-submit-btn"
+                  class="w-full bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-3 text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Reserve</button>
+                <% } else if (currentUser && currentUser._id.equals(listing.owner._id)) { %>
+                  <button type="button"
+                    class="w-full bg-zinc-300 text-zinc-600 rounded-lg px-5 py-3 text-sm font-semibold cursor-not-allowed"
+                    disabled>You own this property</button>
+                  <% } else { %>
+                    <a href="/login"
+                      class="block text-center w-full bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-3 text-sm font-semibold transition-colors">Log
+                      in to Reserve</a>
+                    <% } %>
           </form>
         </div>
 
         <!-- Review Form -->
         <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-sm">
           <h4 class="text-lg font-semibold text-zinc-900 mb-4">Leave a review</h4>
-          <% if (!currentUser) { %>
-            <p class="text-sm text-zinc-600">Please <a href="/login" class="text-orange-700 hover:underline font-medium">log in</a> to leave a review.</p>
-          <% } else { %>
-            <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation" novalidate>
-              <div class="mb-4">
-                <fieldset class="starability-slot">
-                  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" aria-label="No rating." />
-                  <input type="radio" id="first-rate1" name="review[rating]" value="1" checked />
-                  <label for="first-rate1" title="Terrible">1 star</label>
-                  <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-                  <label for="first-rate2" title="Not good">2 stars</label>
-                  <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-                  <label for="first-rate3" title="Average">3 stars</label>
-                  <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-                  <label for="first-rate4" title="Very good">4 stars</label>
-                  <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-                  <label for="first-rate5" title="Amazing">5 stars</label>
-                </fieldset>
-              </div>
-              <div class="mb-4">
-                <label for="comment" class="block text-sm font-medium text-zinc-700 mb-1.5">Comments</label>
-                <textarea name="review[comment]" id="comment" rows="4" class="w-full border border-zinc-300 rounded-lg px-3 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent resize-none" placeholder="Share your experience" required></textarea>
-                <div class="invalid-feedback text-sm text-red-600 mt-1">Please enter your comments.</div>
-              </div>
-              <button class="w-full bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors">Submit Review</button>
-            </form>
-          <% } %>
+          <% if (typeof currentUser==='undefined' || !currentUser) { %>
+            <p class="text-sm text-zinc-600">Please <a href="/login"
+                class="text-orange-700 hover:underline font-medium">log in</a> to leave a review.</p>
+            <% } else { %>
+              <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation" novalidate>
+                <div class="mb-4">
+                  <fieldset class="starability-slot">
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0"
+                      aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="review[rating]" value="1" checked />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                  </fieldset>
+                </div>
+                <div class="mb-4">
+                  <label for="comment" class="block text-sm font-medium text-zinc-700 mb-1.5">Comments</label>
+                  <textarea name="review[comment]" id="comment" rows="4"
+                    class="w-full border border-zinc-300 rounded-lg px-3 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent resize-none"
+                    placeholder="Share your experience" required></textarea>
+                  <div class="invalid-feedback text-sm text-red-600 mt-1">Please enter your comments.</div>
+                </div>
+                <button
+                  class="w-full bg-orange-700 text-white hover:bg-orange-800 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors">Submit
+                  Review</button>
+              </form>
+              <% } %>
         </div>
       </div>
     </div>
